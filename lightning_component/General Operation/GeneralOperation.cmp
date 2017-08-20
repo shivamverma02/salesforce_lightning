@@ -1,0 +1,78 @@
+<aura:component controller="AccountController" implements="flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" >
+    <aura:attribute name="newEmail" type="String" />
+    <aura:attribute name="Spinner" type="boolean" default="false"/>
+    <aura:attribute name="showSuccessMessage" access="public" type="Boolean" default="false"/>
+    <aura:attribute name="showChangeEmail" access="public" type="Boolean" default="false"/>
+    <aura:attribute name="showCheckEsign" access="public" type="Boolean" default="false"/>
+     <aura:attribute name="person" type="String"/>
+    <aura:attribute name="showEmptyEmailMessage" access="public" type="Boolean" default="false"/>
+     
+    <lightning:button label="Change to Email registration" onclick="{!c.changeEmailRegistration}"/>
+     <lightning:button label="Change Email" onclick="{!c.changeEmail}"/>
+      <lightning:button label="Check Esign" onclick="{!c.checkEsign}"/>
+       <lightning:button label="Invest" onclick="{!c.invest}"/>
+       <lightning:button label="Why I cant validate this borrower" onclick="{!c.whyICantValidateThisBorrower}"/>
+       <lightning:button label="Blender Rating" onclick="{!c.blenderRating}"/>
+       <lightning:button label="Ban From Blender" onclick="{!c.BlockUser}"/>
+       <lightning:button label="C6 Person Search" onclick="{!c.c6PersonSearch}"/>
+    <aura:if isTrue="{!v.Spinner}">
+        <div class="slds-spinner_container">
+          <div role="status" class="slds-spinner slds-spinner--medium">
+            <span class="slds-assistive-text">Loading</span>
+            <ui:spinner aura:id="spinner"/>
+            <div class="slds-spinner__dot-a"></div>
+            <div class="slds-spinner__dot-b"></div>
+          </div>
+        </div>
+     </aura:if>
+     <br></br>
+    <aura:renderIf isTrue="{!v.showChangeEmail}"> 
+    <div id="container">
+        <force:outputField aura:id="existingEmail" value="{!v.account.email}"/>
+    </div>
+    </aura:renderIf>
+   
+    <div id="container" class="container-fluid">
+          <aura:renderIf isTrue="{!v.showCheckEsign}">
+         <table class="fund-spender-table">
+            <tr>
+            	<td>
+                    <div class="form-group">
+                        <label>Check eSign</label>
+                        <ui:inputSelect class="form-control" value="{!v.person}">
+                            <ui:inputSelectOption text="-------" value="true" />
+                            <ui:inputSelectOption text="Main Borrower"/>
+                            <ui:inputSelectOption text="Spouse" />
+                        </ui:inputSelect>
+                    </div>
+                </td>
+            </tr>
+            
+        </table>
+        </aura:renderIf>
+        <aura:renderIf isTrue="{!v.showChangeEmail}"> 
+        <div class="error-class">
+            <aura:renderIf isTrue="{!v.showEmptyEmailMessage}">
+            <ui:message title="Error" severity="confirm" closable="true">
+               Please enter new email address.
+             </ui:message>
+            </aura:renderIf>
+        </div>
+       
+        <div class="form-group">
+            <ui:inputText label="Enter new email address" class="field" value="{!v.newEmail}"/>
+        </div>
+        </aura:renderIf>
+    </div>
+    
+   <aura:renderIf isTrue="{!v.showChangeEmail}"> 
+    <div class="col-md-4 text-center submitButton">
+        <ui:button class="btn btn-default button-class" press="{!c.changeEmailAction}">Save</ui:button>
+    </div>
+    </aura:renderIf>
+     <aura:renderIf isTrue="{!v.showCheckEsign}"> 
+    <div class="col-md-4 text-center submitButton">
+        <ui:button class="btn btn-default button-class" press="{!c.checkEsignAction}">Check Esign</ui:button>
+    </div>
+    </aura:renderIf>
+</aura:component>
